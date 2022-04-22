@@ -6,7 +6,6 @@ from .models import Group, Post
 
 def index(request):
     posts = Post.objects.all()[:settings.ITEMS_COUNT]
-    title = 'Последние обновления на сайте'
     context = {
         'posts': posts,
     }
@@ -16,7 +15,6 @@ def index(request):
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     posts = group.posts.all()[:settings.ITEMS_COUNT]
-    title = 'Записи сообщества <имя_группы>'
     context = {
         'group': group,
         'posts': posts,
