@@ -26,5 +26,8 @@ class Post(models.Model):
         on_delete=models.SET_NULL,
         related_name='posts', blank=True, null=True)
 
+    def __str__(self):
+        return self.text    
+
     class Meta:
         ordering = ['-pub_date']
