@@ -70,3 +70,27 @@ def post_create(request):
         'form': form,
     }
     return render(request, 'posts/create_post.html', context)
+
+
+def post_edit(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    if post.author_id != request.user.id:
+        return redirect('/posts/' + str(post_id))
+    
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = User.objects.get(username=request.user.username)
+            post.save()
+            return
+
+    form = PostForm(request.GET)
+    posts_group = Group.objects.all()
+    context = {
+        'posts_group': posts_group,
+        'form': form,
+        'is_edit': True,
+        'text': post.text,
+    }
+    return render(request, 'posts/create_post.html', context)
